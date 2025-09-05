@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Interactif - RATOLOJANAHARY Ravaka Nirina Eric</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+        .main-container {
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+        }
+        @media (min-width: 1024px) {
+            .main-container {
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: center;
+            }
+        }
+        .cv-section {
+            width: 100%;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        @media (min-width: 1024px) {
+            .cv-section {
+                width: 50%;
+            }
+        }
+        .ai-chat-wrapper {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+        .ai-chat-box {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            max-height: 400px;
+            width: 350px;
+            overflow-y: auto;
+            display: none;
+            flex-direction: column;
+        }
+        @media (min-width: 1024px) {
+            .ai-chat-box {
+                max-height: 600px;
+            }
+        }
+        .chat-message {
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            max-width: 90%;
+            word-wrap: break-word;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .user-message {
+            background-color: #d1fae5;
+            margin-left: auto;
+            border-bottom-right-radius: 0;
+        }
+        .ai-message {
+            background-color: #e5e7eb;
+            border-bottom-left-radius: 0;
+        }
+        .chat-toggle-btn {
+            width: 60px;
+            height: 60px;
+            background-color: #10b981;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .chat-toggle-btn:hover {
+            transform: scale(1.05);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .loading-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #9ca3af;
+            border-radius: 50%;
+            display: inline-block;
+            animation: bounce 1.4s infinite ease-in-out;
+        }
+        .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-8px); }
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 flex flex-col items-center">
+
+    <div class="main-container w-full lg:flex-row">
+
+        <!-- CV Section -->
+        <div class="cv-section flex flex-col items-center lg:items-start text-center lg:text-left space-y-8 lg:w-1/2">
+            <div class="flex flex-col items-center lg:items-start space-y-4">
+                <div class="relative w-40 h-40 rounded-full overflow-hidden shadow-md border-4 border-gray-200">
+                    <img src="https://placehold.co/160x160/cccccc/333333?text=Photo+CV" alt="Photo de profil" class="w-full h-full object-cover">
+                </div>
+                <h1 class="text-3xl font-bold text-gray-800">RATOLOJANAHARY<br>Ravaka Nirina Eric</h1>
+                <h2 class="text-xl text-gray-600">Cliquez sur les boutons ci-dessous pour en savoir plus sur moi</h2>
+            </div>
+            
+            <!-- Navigation Buttons -->
+            <div class="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 max-w-2xl lg:max-w-none">
+                <button data-category="Profil" class="bg-gray-200 text-gray-700 py-4 px-6 rounded-lg font-semibold hover:bg-gray-300 transition-colors shadow-sm hover:shadow-md">
+                    Profil
+                </button>
+                <button data-category="À propos" class="bg-gray-200 text-gray-700 py-4 px-6 rounded-lg font-semibold hover:bg-gray-300 transition-colors shadow-sm hover:shadow-md">
+                    À propos
+                </button>
+                <button data-category="Contact" class="bg-gray-200 text-gray-700 py-4 px-6 rounded-lg font-semibold hover:bg-gray-300 transition-colors shadow-sm hover:shadow-md">
+                    Contact
+                </button>
+                <button data-category="Expérience" class="bg-gray-200 text-gray-700 py-4 px-6 rounded-lg font-semibold hover:bg-gray-300 transition-colors shadow-sm hover:shadow-md">
+                    Expérience
+                </button>
+                <button data-category="Compétences" class="bg-gray-200 text-gray-700 py-4 px-6 rounded-lg font-semibold hover:bg-gray-300 transition-colors shadow-sm hover:shadow-md">
+                    Compétences
+                </button>
+                <button data-category="Formations" class="bg-gray-200 text-gray-700 py-4 px-6 rounded-lg font-semibold hover:bg-gray-300 transition-colors shadow-sm hover:shadow-md">
+                    Formations
+                </button>
+                <button data-category="Langues" class="bg-gray-200 text-gray-700 py-4 px-6 rounded-lg font-semibold hover:bg-gray-300 transition-colors shadow-sm hover:shadow-md">
+                    Langues
+                </button>
+                <button data-category="Centres d'intérêt" class="bg-gray-200 text-gray-700 py-4 px-6 rounded-lg font-semibold hover:bg-gray-300 transition-colors shadow-sm hover:shadow-md">
+                    Centres d'intérêt
+                </button>
+            </div>
+        </div>
+        
+        <!-- AI Chat Section for larger screens -->
+        <div class="hidden lg:block w-full lg:w-1/2 p-4 bg-gray-100 rounded-xl shadow-inner">
+            <h3 class="text-xl font-semibold mb-4 text-center text-gray-700">Moi, Ravaka</h3>
+            <div id="desktop-chat-box" class="ai-chat-box flex flex-col space-y-4 max-h-[600px] h-full" style="display: flex;">
+                <div id="desktop-chat-container" class="flex-grow flex flex-col space-y-4 overflow-y-auto">
+                </div>
+                <div class="flex items-center space-x-2 mt-4">
+                    <input type="text" id="desktop-chat-input" class="flex-grow rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Posez une question...">
+                    <button id="desktop-send-btn" class="bg-green-500 text-white rounded-full p-3 hover:bg-green-600 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                            <path d="M3.478 2.405a.75.75 0 0 0-.926.94l2.432 7.945a.75.75 0 0 0 .926.94l13.197-2.641a.75.75 0 0 0 0-1.342L3.478 2.405Z" />
+                            <path d="M18.892 12.607a.75.75 0 0 0-.926-.94l-2.432-7.945a.75.75 0 0 0-.926-.94L3.478 19.595a.75.75 0 0 0 .926.94l2.432-7.945a.75.75 0 0 0 .926-.94L18.892 12.607Z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Chatbot UI for smaller screens -->
+    <div class="ai-chat-wrapper lg:hidden">
+        <div id="chat-toggle-btn" class="chat-toggle-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 14h12V6H6v8z"/>
+            </svg>
+        </div>
+        <div id="chat-box" class="ai-chat-box flex flex-col">
+            <div class="flex justify-between items-center mb-2 pb-2 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-700">Moi, Ravaka</h3>
+                <button id="close-chat-btn" class="text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div id="mobile-chat-container" class="flex-grow flex flex-col space-y-4 overflow-y-auto">
+            </div>
+            <div class="flex items-center space-x-2 mt-4">
+                <input type="text" id="mobile-chat-input" class="flex-grow rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Posez une question...">
+                <button id="mobile-send-btn" class="bg-green-500 text-white rounded-full p-3 hover:bg-green-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M3.478 2.405a.75.75 0 0 0-.926.94l2.432 7.945a.75.75 0 0 0 .926.94l13.197-2.641a.75.75 0 0 0 0-1.342L3.478 2.405Z" />
+                        <path d="M18.892 12.607a.75.75 0 0 0-.926-.94l-2.432-7.945a.75.75 0 0 0-.926-.94L3.478 19.595a.75.75 0 0 0 .926.94l2.432-7.945a.75.75 0 0 0 .926-.94L18.892 12.607Z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- API Key Modal (new) -->
+    <div id="apiKeyModal" class="modal">
+        <div class="modal-content">
+            <span id="close-api-key-modal-btn" class="close-btn">&times;</span>
+            <h2 class="text-2xl font-bold mb-4">Clé d'activation</h2>
+            <p class="mb-4">Pour activer le CV, veuillez entrer une clé d'activation. Une fois que vous entrez votre clé, l'IA restera active tout au long de votre session. Pour des raisons de sécurité, la clé n'est pas sauvegardée.</p>
+            <form id="api-key-form">
+                <div class="mb-4">
+                    <label for="api-key-input" class="block text-gray-700 text-sm font-bold mb-2">Clé d'activation</label>
+                    <input type="password" id="api-key-input" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Entrez votre clé d'activation ici">
+                </div>
+                <div id="api-key-message" class="text-red-500 text-sm mb-4" style="display: none;"></div>
+                <button type="submit" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Activer le CV</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Footer with discrete social links and login button -->
+    <footer class="mt-8 text-center text-gray-500">
+        <p class="mb-2">Connectez-vous avec moi :</p>
+        <div class="flex justify-center space-x-4">
+            <a href="https://www.linkedin.com/in/ratolojanahary-ravaka-nirina-eric-504562207/" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-700 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-.923-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.768s.784-1.768 1.75-1.768 1.75.79 1.75 1.768-.783 1.768-1.75 1.768zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                </svg>
+            </a>
+            <a href="https://www.nydianteniko.com/" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-red-700 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2 16.5l-2.909-2.909c-.378-.378-.378-.991 0-1.369l.969-.969c.378-.378.991-.378 1.369 0l1.373 1.373 2.909-2.909c.378-.378.991-.378 1.369 0l.969.969c.378.378.378.991 0 1.369l-4.279 4.279c-.378.378-.991.378-1.369 0z"/>
+                </svg>
+            </a>
+        </div>
+    </footer>
+
+    <script type="module">
+        let cvData = {
+            "Profil": "Professionnel de la tech orienté résultats, avec une passion pour la création de solutions technologiques performantes. Spécialisé en création de site web avec les CMS comme wordpress,shopify ou encore prestashop, et spécialisé aussi dans le SEO et la création de contenu en ligne.J'allie compétences techniques solides et pensée critique pour relever les défis les plus complexes.",
+            "À propos": "À propos de moi:Je m'appelle  Ratolojanahary Ravaka Nirina Eric, je suis née à Antsirabe le 05 février 1990,célibataire,de nationalité Malagasy, je  suis passionné par le métiers digital comme le SEO, la création de site ou le développement web, le marketing digital, la création de contenu que se soit visuelle ou textuelle. Mon expérience est dans la stratégie de contenu, l'analyse de performance et l'amélioration du référencement naturel. Mon approche est centrée sur l'impact, la pertinence et l'engagement des audiences.",
+            "Contact": "Vous pouvez me contacter par téléphone au 034 24 944 69 ou au 033 17 125 55  ou encore par email à nirinaravaka01@gmail.com. Je suis basé à Antsirabe. J'ai un compte linkedin aussi portant mon nom Ratolojanahary Ravaka Nirina Eric, le compte linkedin est verifiable en clickant le lien sur le bouton linkedin en bas",
+            "Expérience": "Mon parcours professionnel comprend plusieurs rôles : Référenceur SEO & Consultant en visibilité digitale chez Inforozy consulting (2013-2016), Responsable Packing & Logistique chez Floréal (2016-2017) et Réceptionniste de Nuit à l'Hôtel Plumeria (2017-Aujourd'hui). J'ai aussi des expériences en bénévolat, j'ai été déjà un paire éducateur des jeunes au FISA Antsirabe, un paire éducateur qui anime et aide les jeunes sur la santé sexuelle et sur le plannification familiale de 2012 à 2014 . J'ai été déjà aussi un coach bénévole en initiation en programmation pour les enfants en utilisant le logiciel scratch chez Karen Caren Antsirabe de 2019 à 2020 ",
+            "Compétences": "Mes compétences principales incluent la rédaction et la production de contenu, l'analyse de données, le marketing digital, le design graphique (GIMP, Canva) et le développement web,concernant le dévoloppement web j'ais un niveau intérmediaire en HTML/CSS et débutant en javascript mais j'appends continuellement , je peux créer des sites vitrine, ecommerce et blog avec wordpress, shopify ou encore prestashop. Et je suis un grand fan de logiciel libre c'est pour cela que j'utilise fedora linux comme OS principal, j'ai un niveau intermediaire concernant les lignes de commande linux. Et c'est grace à mon amour pour linux que j'ai appris le langage C, j'ai aussi un niveau intermediaire dans ce langage. Déploiement : Hébergé et déployé via GitHub Pages. Je suis une personne dynamique et qui peut s'hadapter au changement",
+            "Formations": "J'ai un Baccalauréat série D obtenu au lycée Andrea Resampa Antsirabe en 2010 et un Bacc + 2 en informatique de gestion, obtenu au CNTEMAD à Antsirabe en 2012.",
+            "Langues": "Je parle malgache (99%), français (75%) et anglais (60%) pour l'anglais je suis encore des cours chez lovasoa crossculture Antsirabe j'ai même un blog personnel où je renconte mes parcourt dans l'apprentissage de l'anglais, le blog c'est nydianteniko.com, il y a aussi un lien en bas pour y accéder",
+            "Centres d'intérêt": "Mes centres d'intérêt sont la lecture (romans, comics, mangas) mon écrivain est Stéphen king et je suis un fan de Berserk de Kentaro Miura , le cinéma c'est échappatoire favorie, j'aime aussi les jeux vidéos et le pop art en général. Mais j'écoute aussi de la musique surtout les musiques afro-américain comme le hip-hop, le RnB,le Soul, le Blues,le Jazz et aussi des musiques traditionnelle malagasy comme le ba Gasy et le Beko.Et j'ai pratiqué le jiu-jitsu brésilien pendant presque deux ans"
+        };
+        let jobData = { jobDescription: "" };
+        let geminiApiKey = null;
+        
+        const generateAIResponse = async (question) => {
+            if (!geminiApiKey) {
+                return "Clé manquante. Veuillez entrer votre clé pour activer le chat IA.";
+            }
+            
+            const systemPrompt = `Tu es Ravaka Nirina Eric RATOLOJANAHARY. Ton CV est fourni ici en format JSON : ${JSON.stringify(cvData)}. Il y a aussi une description de poste : ${jobData.jobDescription}. En te basant sur ces informations, réponds à la question suivante comme si tu étais Ravaka, en utilisant la première personne ('je', 'mon', 'ma', etc.). Adopte un ton professionnel et amical, avec un style conversationnel continuel donc éssayer d'éviter de dire boujour à chaque fois tant que la conversation continue. Sois concis. Réponds à la question comme si tu étais un être humain, avec une personnalité. Voici la question : ${question}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: systemPrompt }] }],
+            };
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${geminiApiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error("Erreur de l'API Gemini:", errorText);
+                    return "Désolé, il y a eu une erreur avec la clé. Veuillez la vérifier et réessayer.";
+                }
+
+                const data = await response.json();
+                return data?.candidates?.[0]?.content?.parts?.[0]?.text || "Aucune réponse de ma part pour le moment.";
+
+            } catch (error) {
+                console.error("Erreur de connexion à l'API Gemini:", error);
+                return "Désolé, il y a eu une erreur de connexion. Veuillez réessayer plus tard.";
+            }
+        };
+
+        const addMessageToChat = (message, sender) => {
+            const chatContainer = window.innerWidth >= 1024 ? document.getElementById('desktop-chat-container') : document.getElementById('mobile-chat-container');
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chat-message', sender === 'user' ? 'user-message' : 'ai-message');
+            messageDiv.innerHTML = message;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        };
+
+        const askAI = async (question) => {
+            if (!geminiApiKey) {
+                addMessageToChat("Veuillez d'abord entrer une clé API pour pouvoir discuter avec moi.", 'ai');
+                openApiKeyModal();
+                return;
+            }
+
+            const chatBox = window.innerWidth >= 1024 ? document.getElementById('desktop-chat-box') : document.getElementById('chat-box');
+            if (window.innerWidth < 1024 && chatBox.style.display !== 'flex') {
+                toggleChat();
+            }
+            
+            addMessageToChat(question, 'user');
+            addMessageToChat('<div class="flex space-x-1"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></div>', 'ai');
+
+            const aiResponse = await generateAIResponse(question);
+            
+            const chatContainer = window.innerWidth >= 1024 ? document.getElementById('desktop-chat-container') : document.getElementById('mobile-chat-container');
+            const lastMessage = chatContainer.lastElementChild;
+            if (lastMessage && lastMessage.innerHTML.includes('loading-dot')) {
+                lastMessage.remove();
+            }
+
+            addMessageToChat(aiResponse, 'ai');
+        };
+
+        const handleUserInput = (inputElement) => {
+            const userQuestion = inputElement.value.trim();
+            if (userQuestion) {
+                askAI(userQuestion);
+                inputElement.value = '';
+            }
+        };
+
+        // Modal functions
+        const apiKeyModal = document.getElementById('apiKeyModal');
+
+        const openApiKeyModal = () => { apiKeyModal.style.display = 'flex'; };
+        const closeApiKeyModal = () => { apiKeyModal.style.display = 'none'; };
+
+        window.onclick = function(event) {
+            if (event.target == apiKeyModal) { closeApiKeyModal(); }
+        };
+
+        const toggleChat = () => {
+            const chatBox = document.getElementById('chat-box');
+            const toggleBtn = document.getElementById('chat-toggle-btn');
+            if (chatBox.style.display === 'none' || chatBox.style.display === '') {
+                chatBox.style.display = 'flex';
+                toggleBtn.style.display = 'none';
+            } else {
+                chatBox.style.display = 'none';
+                toggleBtn.style.display = 'flex';
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatToggleButton = document.getElementById('chat-toggle-btn');
+            const chatCloseButton = document.getElementById('close-chat-btn');
+            const closeApiKeyModalBtn = document.getElementById('close-api-key-modal-btn');
+            const categoryButtons = document.querySelectorAll('.cv-section button[data-category]');
+            const desktopChatInput = document.getElementById('desktop-chat-input');
+            const mobileChatInput = document.getElementById('mobile-chat-input');
+            const desktopSendBtn = document.getElementById('desktop-send-btn');
+            const mobileSendBtn = document.getElementById('mobile-send-btn');
+            
+            openApiKeyModal();
+            
+            chatToggleButton.addEventListener('click', toggleChat);
+            chatCloseButton.addEventListener('click', toggleChat);
+            closeApiKeyModalBtn.addEventListener('click', closeApiKeyModal);
+
+            document.getElementById('api-key-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const apiKeyInput = document.getElementById('api-key-input');
+                const messageDiv = document.getElementById('api-key-message');
+                if (apiKeyInput.value.trim() !== '') {
+                    geminiApiKey = apiKeyInput.value.trim();
+                    closeApiKeyModal();
+                    addMessageToChat("Salut ! Je suis Ravaka. N'hésitez pas à me poser des questions sur mon parcours ou à cliquer sur une catégorie pour en savoir plus.", 'ai');
+                } else {
+                    messageDiv.textContent = 'Veuillez entrer une clé valide.';
+                    messageDiv.style.display = 'block';
+                }
+            });
+
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const category = e.target.dataset.category;
+                    askAI(`Parle-moi de ta section : ${category}`);
+                });
+            });
+
+            desktopSendBtn.addEventListener('click', () => handleUserInput(desktopChatInput));
+            mobileSendBtn.addEventListener('click', () => handleUserInput(mobileChatInput));
+
+            desktopChatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleUserInput(desktopChatInput);
+                }
+            });
+
+            mobileChatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleUserInput(mobileChatInput);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
